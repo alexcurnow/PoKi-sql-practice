@@ -88,5 +88,12 @@ SELECT TOP 3
 	ORDER BY PoemCount DESC;
 
 -- 16. How many poems have an emotion of sadness?
-
+SELECT
+	p.Title,
+	e.Name,
+	Count(p.Id) as PoemCount
+	FROM Poem p
+	JOIN PoemEmotion pe on pe.PoemId = p.Id
+	JOIN Emotion e on e.Id = pe.EmotionId
+	WHERE e.Name = Sadness;
 	
