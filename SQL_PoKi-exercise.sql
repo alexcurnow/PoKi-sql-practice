@@ -89,11 +89,36 @@ SELECT TOP 3
 
 -- 16. How many poems have an emotion of sadness?
 SELECT
-	p.Title,
-	e.Name,
 	Count(p.Id) as PoemCount
 	FROM Poem p
 	JOIN PoemEmotion pe on pe.PoemId = p.Id
 	JOIN Emotion e on e.Id = pe.EmotionId
-	WHERE e.Name = Sadness;
-	
+	WHERE e.Name = 'Sadness';
+
+-- 17. How many poems are not associated with any emotion?
+SELECT
+	Count(p.Id) as 'Poems without Emotion'
+	FROM Poem p
+	LEFT JOIN PoemEmotion pe on pe.PoemId = p.Id
+	WHERE pe.EmotionId IS NULL;
+
+-- 18. Which emotion is associated with the least number of poems?
+
+SELECT
+	e.Name,
+	Count(e.id)
+	FROM Emotion e
+	JOIN PoemEmotion pe on pe.EmotionId = e.Id
+	JOIN Poem p on p.Id = pe.PoemId
+	GROUP BY e.name
+	ORDER BY Count(e.Id);
+
+-- 19. Which grade has the largest number of poems with an emotion of joy?
+SELECT
+	g.Name,
+	e.Name
+	FROM Grade g
+	JOIN Emotion e on e.Id = pe.EmotionId
+	JOIN Author a ON g.Id = a.GradeId
+	JOIN PoemEmotion pe on pe.EmotionId = e.Id
+	JOIN Poem p on p.Id = pe.PoemId;
